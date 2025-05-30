@@ -18,7 +18,9 @@ Cross-Chain Queries	Read Solana account data from EVM
 Rent Calculation	Compute storage costs on Solana
 
 import {CallSolanaHelperLib} from '../utils/CallSolanaHelperLib.sol';
+
 import {LibSystemProgram} from "./libraries/system-program/LibSystemProgram.sol";
+
 import {LibSystemData} from "./libraries/system-program/LibSystemData.sol";
 
 ICallSolana public constant CALL_SOLANA = ICallSolana(0xFF00000000000000000000000000000000000006);
@@ -30,22 +32,33 @@ function createAccountWithoutSeed(
     uint64 accountSize
 ) external {
     bytes32 payer = CALL_SOLANA.getPayer();
-    (bytes32[] memory accounts, , , bytes memory data, uint64 rent) = 
-        LibSystemProgram.formatCreateAccountWithoutSeedInstruction(
-            payer, newAccount, programId, accountSize
-        );
-    
-    CALL_SOLANA.execute(rent, 
-        CallSolanaHelperLib.prepareSolanaInstruction(
-            Constants.getSystemProgramId(),
-            accounts,
-            isSigner,
-            isWritable,
-            data
-        )
-    );
-}
 
+    // Format createAccount instruction
+    (
+        bytes32[] memory accounts,
+        bool[] memory isSigner,
+        bool[] memory isWritable,
+        bytes memory data,
+        uint64 rentExemptionBalance
+    ) = LibSystemProgram.formatCreateAccountWithoutSeedInstruction(
+        payer,
+        newAccount,
+        programId,
+        accountSize
+    );
+
+    // Prepare the instruction
+    bytes memory createAccountIx = CallSolanaHelperLib.prepareSolanaInstruction(
+        Constants.getSystemProgramId(),
+        accounts,
+        isSigner,
+        isWritable,
+        data
+    );
+
+    // Execute the instruction with the required rent exemption balance
+    CALL_SOLANA.execute(rentExemptionBalance, createAccountIx);
+}
 
 ## 📊 Test Results (neondevnet)
 
