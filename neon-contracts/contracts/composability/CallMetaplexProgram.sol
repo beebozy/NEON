@@ -11,7 +11,6 @@ import { LibMetaplexErrors } from "./libraries/metaplex-program/LibMetaplexError
 import { LibMetaplexProgram } from "./libraries/metaplex-program/LibMetaplexProgram.sol";
 
 import { ICallSolana } from '../precompiles/ICallSolana.sol';
-
 /// @title CallMetaplexProgram
 /// @notice Example contract showing how to use LibMetaplexProgram and LibMetaplexData libraries to interact with
 /// Solana's Metaplex program
