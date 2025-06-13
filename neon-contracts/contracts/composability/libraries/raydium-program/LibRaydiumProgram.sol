@@ -237,7 +237,7 @@ library LibRaydiumProgram {
 
         accounts = new bytes32[](14);
         if (premadeAccounts.length == 0) {
-            premadeAccounts = new bytes32[](accounts.length);
+               premadeAccounts = new bytes32[](accounts.length);
         }
         accounts[0] = (premadeAccounts[0] != bytes32(0)) ? premadeAccounts[0] : CALL_SOLANA.getPayer();
         accounts[1] = (premadeAccounts[1] != bytes32(0)) ? premadeAccounts[1] : LibRaydiumData.getPdaPoolAuthority();

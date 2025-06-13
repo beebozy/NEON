@@ -60,6 +60,7 @@ describe('\u{1F680} \x1b[36mSystem program composability tests\x1b[33m',  async 
             await tx.wait(1) // Wait for 1 confirmation
 
             info = await solanaConnection.getAccountInfo(new web3.PublicKey(ethers.encodeBase58(createWithSeedAccountInBytes)))
+           // info = await solanaConnection.getAccountInfo(new web3.PublicKey(ethers.encodeBase58(createWithSeedAccountInBytes)))
             expect(info.owner.toBase58()).to.eq(TOKEN_PROGRAM_ID.toBase58())
             expect(info.executable).to.be.false
             expect(info.lamports).to.eq(rentExemptBalance)
@@ -277,6 +278,13 @@ describe('\u{1F680} \x1b[36mSystem program composability tests\x1b[33m',  async 
                 }
             });
             console.log("CallSystemProgram.getRentExemptionBalance(uint64) gas usage = " + gas);
+        });
+
+        it('CreateAccountWithout seed', async function(){
+
+            const callData= callSystemProgram.interface.encodeFunctionData()
+
         })
+
     })
 })
