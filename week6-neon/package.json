@@ -1,0 +1,14 @@
+{
+  "name": "hardhat-project",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.24.3"
+  },
+  "dependencies": {
+    "@neonevm/solana-sign": "^0.2.1",
+    "@solana/web3.js": "^1.98.2",
+    "bs58": "^6.0.0",
+    "dotenv": "^16.5.0",
+    "fs": "^0.0.1-security"
+  }
+}
