@@ -169,17 +169,7 @@ import bs58 from 'bs58';
 
 ## 🤝 License
 
-MIT — do what you want, just don’t leak your private key. 🛡️
+MIT — Do not leak your private key  🛡️
 
 ---
 
-## 👨‍💻 Author
-
-Built by [@YourHandle](https://github.com/yourHandle) for research, testing, and bridging experiments on Neon EVM.
-
-```
-
----
-
-Let me know if you also want a **Markdown Notion export**, a **video walkthrough script**, or want this split into a proper `docs/` structure.
-```
