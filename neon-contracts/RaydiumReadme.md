@@ -22,8 +22,7 @@ Here's a solid `README.md` tailored to your **RaydiumStakingVault** project, bas
 
 ## ⚙️ Architecture Overview
 
-```mermaid
-graph TD
+
   A[User Wallet] -->|ERC20ForSPL.transferFrom| B[RaydiumStakingVault]
   B -->|transferSolana| C[Solana Associated Token Account (ATA)]
   B -->|addLiquidityInstruction| D[Raydium AMM]
@@ -32,8 +31,6 @@ graph TD
   E -->|Minted Shares| F[User]
   F -->|Withdraw Request| B
 ```
-
----
 
 ## 🧪 Testing Setup
 
