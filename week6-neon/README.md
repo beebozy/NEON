@@ -1,69 +1,77 @@
-Here's a **combined, comprehensive README** that covers both of your scripts:
+# 🔁 Solana ⇄ Neon EVM USDC Interoperability Scripts
+
+This project provides two essential scripts to demonstrate cross-chain USDC token interactions between the **Solana Devnet** and the **Neon EVM Devnet**.
+
+### 🎯 Goal
+Use a Solana private key to:
+- Transfer USDC from a Solana wallet to a Neon EVM-compatible address.
+- Approve USDC allowance on Neon EVM using a Solana-based signer.
 
 ---
 
-````markdown
-# 🔁 Solana ⇄ Neon EVM USDC Scripts (Transfer + Approval)
+## 🧩 Components
 
-This project contains two key scripts for interacting with **USDC tokens** across **Solana Devnet** and **Neon EVM Devnet**:
+### 1. `token-transfer-solana-signer-sdk.js`  
+Transfers `1 USDC` from a Solana-associated token account (ATA) to a **Neon EVM wallet**.
 
-USDC_ADDRESS = '0x512E48836Cd42F3eB6f50CEd9ffD81E0a7F15103';
-1. `token-transfer-solana-signer-sdk.js`  
-   Transfers `1 USDC` from a Solana ATA to a Neon EVM wallet.
+- ✅ **Neon EVM Transaction Hash (Approval):**
+  ```
+  0xabbc2d233135781a3dd969eabcc0b635ee81a830cbc08bacde4745cf6040e225
+  ```
 
-   Neon EVM transaction hash 0xabbc2d233135781a3dd969eabcc0b635ee81a830cbc08bacde4745cf6040e225 for approval 
+### 2. `token-approval-solana-signer-sdk.js`  
+Issues an `approve()` transaction for USDC on Neon, **signed with a Solana private key**.
 
-2. `token-approval-solana-signer-sdk.js`  
-   Issues an ERC-20 `approve` transaction from a Neon EVM wallet (signed via Solana).
-
-
-   Neon EVM transaction hash 0xa8a0cf29aa94b5dfecbd0e124b4a1fcb57b5ffbad525e146d7069888af684f3c for transfer
+- ✅ **Neon EVM Transaction Hash (Transfer):**
+  ```
+  0xa8a0cf29aa94b5dfecbd0e124b4a1fcb57b5ffbad525e146d7069888af684f3c
+  ```
 
 ---
 
-## 💡 Why This Exists
+## 💡 Why This Project?
 
-These scripts demonstrate how to:
-- Use Solana accounts to initiate and sign Neon EVM-compatible transactions.
-- Work with wrapped USDC tokens on both chains.
-- Use `@neonevm/solana-sign` to bridge Solana private key authority into Neon EVM.
+This project showcases how to:
+- Leverage a **Solana keypair** to sign and execute **EVM-compatible transactions**.
+- Interact with wrapped USDC tokens across both ecosystems.
+- Use the `@neonevm/solana-sign` SDK to derive **Neon wallet addresses from Solana keys**.
 
 ---
 
 ## 🛠️ Tech Stack
 
 | Package | Purpose |
-|--------|--------|
-| `@solana/web3.js` | Sign and send Solana transactions |
-| `@solana/spl-token` | Manage token accounts (ATA) |
-| `ethers` | Encode ERC-20 tx calls |
-| `@neonevm/solana-sign` | Neon EVM <--> Solana bridge SDK |
-| `bs58` | Decode Solana private key from base58 |
-| `dotenv` | Load your private key securely |
+|--------|---------|
+| `@solana/web3.js` | Manage Solana accounts and transactions |
+| `@solana/spl-token` | Interact with Solana token accounts (ATA) |
+| `ethers` | Encode and send ERC-20 `approve()` transactions |
+| `@neonevm/solana-sign` | Bridge Solana keys to sign Neon EVM transactions |
+| `bs58` | Decode Solana private key |
+| `dotenv` | Securely manage environment variables |
 
 ---
 
-## 📁 Folder Structure
+## 📁 Project Structure
 
 ```bash
 .
-├── .env
+├── .env                           # Holds your base58 Solana private key
 ├── token-transfer-solana-signer-sdk.js
 ├── token-approval-solana-signer-sdk.js
 ├── package.json
-````
+```
 
 ---
 
 ## ⚙️ Environment Setup
 
-Create a `.env` file:
+Create a `.env` file with the following content:
 
 ```env
 PRIVATE_KEY_SOLANA=your_base58_encoded_solana_private_key
 ```
 
-This should be a **base58**-encoded secret key (like those exported from Phantom or Sollet).
+> ✅ This should be a **base58-encoded** Solana secret key (as exported from Phantom, Sollet, or Solana CLI).
 
 ---
 
@@ -77,21 +85,18 @@ npm install @solana/web3.js @solana/spl-token ethers bs58 dotenv @neonevm/solana
 
 ## 🚀 How to Use
 
-### ✅ Transfer USDC from Solana → Neon EVM
+### 🔄 Transfer USDC from Solana → Neon EVM
 
 ```bash
 node token-transfer-solana-signer-sdk.js
 ```
 
-**What it does:**
+**Functionality:**
+- Initializes a USDC ATA if not already created.
+- Transfers 1 USDC to a Neon-derived wallet.
+- Logs pre- and post-transaction balances.
 
-* Creates the USDC ATA if missing.
-* Approves the Neon EVM contract to spend USDC.
-* Transfers 1 USDC to a randomly generated Neon wallet.
-* Logs balances before and after.
-
-Expected logs:
-
+✅ **Expected Output base on my wallet:**
 ```
 5000000n senderUsdcBalance
 0n receiverUsdcBalance
@@ -102,21 +107,17 @@ Expected logs:
 
 ---
 
-### ✅ Approve USDC Spending on Neon via Solana Signer
+### ✅ Approve USDC Spending on Neon EVM (via Solana Signer)
 
 ```bash
 node token-approval-solana-signer-sdk.js
 ```
 
-**What it does:**
+**Functionality:**
+- Uses your Solana private key to sign an EVM `approve()` call.
+- Approves a USDC allowance to your Neon wallet.
 
-* Uses your Solana key to sign an ERC20 `approve()` tx on Neon.
-* Grants approval to your own Neon wallet address for a random amount.
-* Logs the current allowance value before and after.
-
-
-Expected logs:
-
+✅ **Expected Output based on my wallet address:**
 ```
 usdc approval of 0xYourNeonWallet is 1750040215n
 ...
@@ -125,51 +126,32 @@ Current USDC approval of 0xYourNeonWallet is 1750180042n
 
 ---
 
-## 🔐 Common Errors & Fixes
 
-### ❌ `bs58.decode is not a function`
 
-✅ Fix: Use the correct import based on your Node.js version:
+## 🧪 Tips & Debugging
 
-```js
-// For CommonJS (Node v16+)
-const bs58 = require("bs58"); // DO NOT use `.default`
-```
-
-If using `"type": "module"` in `package.json`, switch to:
-
-```js
-import bs58 from 'bs58';
-```
-
----
-
-## 🧪 Tips
-
-* Check your Solana address balance:
-
+- 🔍 Check Solana balance:
   ```bash
   solana balance <your_pubkey>
   ```
 
-* Use [https://explorer.solana.com/](https://explorer.solana.com/?cluster=devnet) or [https://devnet.neonscan.org/](https://devnet.neonscan.org/) to trace transactions.
+- 🌐 View transactions:
+  - [Solana Explorer (Devnet)](https://explorer.solana.com/?cluster=devnet)
+  - [Neon Devnet Explorer](https://devnet.neonscan.org)
 
-* Your Neon wallet address is derived automatically from your Solana key using the Neon EVM SDK.
-
----
-
-## 📚 References
-
-* [Neon Labs Docs](https://docs.neonfoundation.io/)
-* [Solana SPL Token](https://spl.solana.com/token)
-* [Solana Web3.js](https://solana-labs.github.io/solana-web3.js/)
-* [Neon Devnet Explorer](https://devnet.neonscan.org)
+- 🧠 Your Neon wallet is derived from your Solana private key via the Neon SDK — no separate key required.
 
 ---
 
-## 🤝 License
+## 🔗 Key References
 
-MIT — Do not leak your private key  🛡️
+- 📚 [Neon Labs Documentation](https://docs.neonfoundation.io/)
+- 🔗 [Solana SPL Token Docs](https://spl.solana.com/token)
+- 🛠️ [Solana Web3.js](https://solana-labs.github.io/solana-web3.js/)
+- 🔍 [Neon EVM Devnet Explorer](https://devnet.neonscan.org)
 
 ---
+
+## 🛡️ License
+
 
